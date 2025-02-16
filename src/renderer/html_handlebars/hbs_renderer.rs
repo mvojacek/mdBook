@@ -494,10 +494,11 @@ impl Renderer for HtmlHandlebars {
         let book = &ctx.book;
         let build_dir = ctx.root.join(&ctx.config.build.build_dir);
 
-        if destination.exists() {
-            utils::fs::remove_dir_content(destination)
-                .with_context(|| "Unable to remove stale HTML output")?;
-        }
+        // APS: do not remove existing files in renderer
+        // if destination.exists() {
+        //     utils::fs::remove_dir_content(destination)
+        //         .with_context(|| "Unable to remove stale HTML output")?;
+        // }
 
         trace!("render");
         let mut handlebars = Handlebars::new();

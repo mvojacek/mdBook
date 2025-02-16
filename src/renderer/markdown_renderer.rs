@@ -26,10 +26,11 @@ impl Renderer for MarkdownRenderer {
         let destination = &ctx.destination;
         let book = &ctx.book;
 
-        if destination.exists() {
-            utils::fs::remove_dir_content(destination)
-                .with_context(|| "Unable to remove stale Markdown output")?;
-        }
+        // APS: do not remove existing files in renderer
+        // if destination.exists() {
+        //     utils::fs::remove_dir_content(destination)
+        //         .with_context(|| "Unable to remove stale Markdown output")?;
+        // }
 
         trace!("markdown render");
         for item in book.iter() {

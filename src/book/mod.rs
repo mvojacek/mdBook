@@ -221,6 +221,14 @@ impl MDBook {
 
     /// Run the entire build process for a particular [`Renderer`].
     pub fn execute_build_process(&self, renderer: &dyn Renderer) -> Result<()> {
+        // APS: remove stale output now, before preprocessing
+        let name = renderer.name();
+        let build_dir = self.build_dir_for(name);
+        if build_dir.exists() {
+            utils::fs::remove_dir_content(build_dir.as_path())
+                .with_context(|| "Unable to remove stale HTML output")?;
+        }
+
         let (preprocessed_book, preprocess_ctx) = self.preprocess_book(renderer)?;
 
         let name = renderer.name();
